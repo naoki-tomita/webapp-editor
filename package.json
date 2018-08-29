@@ -20,8 +20,10 @@
     "webpack": "^4.17.1"
   },
   "scripts": {
+    "build": "yarn build:html & yarn build:css && yarn build:script",
     "build:script": "webpack --require ts-node/register",
-    "build:html": "cp -r ./src/apps/. ./dist/"
+    "build:html": "cp -r ./src/apps/. ./dist/",
+    "build:css": "cp ./node_modules/prismjs/themes/prism-okaidia.css ./dist/prism.css"
   },
   "devDependencies": {
     "webpack-command": "^0.4.1"
