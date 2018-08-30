@@ -1,5 +1,4 @@
 import * as React from "react";
-import { highlight, languages } from "prismjs";
 import { CodeHighlight } from "./CodeHighlignt";
 import { CodeTextArea } from "./CodeTextArea";
 
@@ -12,6 +11,7 @@ export enum LanguageTypes {
 
 interface Props {
   language: LanguageTypes;
+  style?: React.CSSProperties;
 }
 
 interface State {
@@ -31,13 +31,14 @@ export class CodeInput extends React.Component<Props, State> {
   }
   render() {
     const { inputText } = this.state;
-    const { language } = this.props;
+    const { language, style } = this.props;
     return (
       <div
         style={{
+          ...style,
           position: "relative",
           resize: "both",
-          overflow: "auto",
+          overflow: "scroll",
           height: "150px",
         }}
       >
@@ -56,21 +57,24 @@ export class CodeInput extends React.Component<Props, State> {
 
   onChangeText: React.ChangeEventHandler<HTMLTextAreaElement>
     = e => this.setState({ inputText: e.target.value });
+}
 
-  renderHighlightedHtml = () => {
-    const { inputText } = this.state;
-    const { language } = this.props;
-    return highlight(inputText, languages[language]);
-  }
+interface StyleProps {
+  style?: React.CSSProperties;
+}
 
-  preEscapeHTML(text: string) {
-    return text.replace(/ /ig, "__space__");
-  }
+export const HTMLInput: React.StatelessComponent<StyleProps> = ({ style }) => {
+  return <CodeInput style={style} language={LanguageTypes.Markup} />
+}
 
-  escapeHTML(text: string) {
-    return text
-      .replace(/\r?\n/ig, "<br>")
-      .replace(/__space__/ig, "&nbsp;");
-  }
+export const JavaScriptInput: React.StatelessComponent<StyleProps> = ({ style }) => {
+  return <CodeInput style={style} language={LanguageTypes.JavaScript} />
+}
 
+export const TypeScriptInput: React.StatelessComponent<StyleProps> = ({ style }) => {
+  return <CodeInput style={style} language={LanguageTypes.TypeScript} />
+}
+
+export const CSSInput: React.StatelessComponent<StyleProps> = ({ style }) => {
+  return <CodeInput style={style} language={LanguageTypes.CSS} />
 }

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { highlight, languages } from "prismjs";
+import "prismjs/components/prism-typescript";
 import styled from "styled-components";
 
 export enum LanguageTypes {
@@ -40,6 +41,9 @@ export class CodeHighlight extends React.Component<Props> {
 
   renderHighlightedHtml = () => {
     const { language, text } = this.props;
-    return highlight(text, languages[language]);
+    if (text) {
+      return highlight(text, languages[language]);
+    }
+    return "";
   }
 }
